@@ -13,12 +13,6 @@ import com.sayed.rxjava.ui.base.BaseActivity;
 
 import java.util.ArrayList;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
@@ -35,10 +29,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        initToolbar(binding.toolbar);//init toolbar
+        initToolbarWithNoBack(binding.toolbar);//init toolbar
         initData(); //init Data
         setUpViewPager();
     }
+
+
 
     //Init Data
     private void initData() {
