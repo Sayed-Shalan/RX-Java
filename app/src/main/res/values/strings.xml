@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Rx Java</string>
+    <string name="loading">Please wait…</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="facebook_app_id">695081657609840</string>
+    <string name="intcore_movies_app">Intcore Movies App</string>
+    <string name="you_can_login_now_and_show_the_recent_movies">You can login now and show the recent movies in our app and select your favourite movies</string>
+    <string name="title_error">Error</string>
+    <string name="error_occurred">Error Occurred…</string>
+    <string name="tmdb_key_v3">a3bbc8ba7c5d94e0cd5d7cb994af8c62</string>
+    <string name="tmdb_key_v4">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhM2JiYzhiYTdjNWQ5NGUwY2Q1ZDdjYjk5NGFmOGM2MiIsInN1YiI6IjVkMGFiMjJhYzNhMzY4MDRmMDFkZTkyYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YcaQ8rdQWHoLYJ6AWu_gmYx1xwf-aLAjrq0gh0owSP0</string>
+    <string name="continue_as">Continue as</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="privacy_policy">Privacy &amp; Policy</string>
+    <string name="about">About</string>
+    <string name="contact_us">Contact us</string>
+    <string name="logout">Logout</string>
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="movies">Movies</string>
+    <string name="list">List</string>
+    <string name="favourites">Favourites</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
