@@ -1,6 +1,5 @@
 package com.sayed.rxjava.repositories;
 
-import android.util.Log;
 
 import com.sayed.rxjava.app.AppController;
 import com.sayed.rxjava.model.MoviesResult;
@@ -11,7 +10,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 

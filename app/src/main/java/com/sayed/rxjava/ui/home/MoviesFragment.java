@@ -49,10 +49,10 @@ public class MoviesFragment extends Fragment implements MoviesView{
 
     //on fav click
     AdapterMovies.MoviesCallback moviesCallback= (movie, position) -> {
-//        if (movie.isFavourite()) moviesPresenter.addMovieToOfflineDB(movie);
-//        else moviesPresenter.deleteMovieFromOfflineDB(movie.getId());
-//
-//        sendMovieBroadCast(movie); //to notify fav frag,ent with updates
+        if (movie.isFavourite()) moviesPresenter.addMovieToOfflineDB(movie);
+        else moviesPresenter.deleteMovieFromOfflineDB(movie.getId());
+
+        sendMovieBroadCast(movie); //to notify fav frag,ent with updates
     };
 
 

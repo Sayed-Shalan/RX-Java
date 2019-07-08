@@ -1,9 +1,12 @@
 package com.sayed.rxjava.app;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 
 
 import com.sayed.rxjava.BuildConfig;
+import com.sayed.rxjava.room_db.AppDatabase;
+import com.sayed.rxjava.room_db.DAOMovies;
 import com.sayed.rxjava.utils.AppUtils;
 
 import okhttp3.Cache;
@@ -20,11 +23,15 @@ public class AppController extends Application {
     static Retrofit retrofit;
     static int cache_size=10*1024*1024; // 10 mb
 
+    AppDatabase appDatabase;
+    static DAOMovies daoMovies;
+
     /** On App Created **/
     @Override
     public void onCreate() {
         super.onCreate();
         initRetrofitInstance(); //init retrofit obj
+        getAppDatabase(); //init room
 //        FacebookSdk.sdkInitialize(getApplicationContext());//init facebook sdk
 //        AppEventsLogger.activateApp(this);
     }
@@ -56,5 +63,18 @@ public class AppController extends Application {
 
     //return retrofit
     public static Retrofit getRetrofit(){return retrofit;}
+
+    //return app Database
+    public void getAppDatabase(){
+        appDatabase= Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "mydb")
+                .allowMainThreadQueries()
+                .build();
+        daoMovies=appDatabase.getMoviesDAO();
+    }
+
+    //get dao movies
+    public static DAOMovies getDAOMovies(){
+        return daoMovies;
+    }
 
 }
