@@ -5,10 +5,12 @@ import android.arch.persistence.room.Room;
 
 
 import com.sayed.rxjava.BuildConfig;
+import com.sayed.rxjava.manager.RealmManager;
 import com.sayed.rxjava.room_db.AppDatabase;
 import com.sayed.rxjava.room_db.DAOMovies;
 import com.sayed.rxjava.utils.AppUtils;
 
+import io.realm.Realm;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,8 +25,12 @@ public class AppController extends Application {
     static Retrofit retrofit;
     static int cache_size=10*1024*1024; // 10 mb
 
+    //ROOM Fields
     AppDatabase appDatabase;
     static DAOMovies daoMovies;
+
+    //REALM Fields
+    static Realm realm;
 
     /** On App Created **/
     @Override
@@ -32,6 +38,9 @@ public class AppController extends Application {
         super.onCreate();
         initRetrofitInstance(); //init retrofit obj
         getAppDatabase(); //init room
+        RealmManager.initialize(getApplicationContext());
+        setRealm(); //define realm object
+
 //        FacebookSdk.sdkInitialize(getApplicationContext());//init facebook sdk
 //        AppEventsLogger.activateApp(this);
     }
@@ -75,6 +84,15 @@ public class AppController extends Application {
     //get dao movies
     public static DAOMovies getDAOMovies(){
         return daoMovies;
+    }
+
+    //set realm
+    private void setRealm(){
+        realm=Realm.getDefaultInstance();
+    }
+    //get realm object
+    public static Realm getRealm(){
+        return realm;
     }
 
 }

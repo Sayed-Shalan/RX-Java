@@ -1,22 +1,23 @@
 package com.sayed.rxjava.repositories;
 
-import android.content.Context;
-
 import com.sayed.rxjava.app.AppController;
 import com.sayed.rxjava.model.Movie;
+import com.sayed.rxjava.realm.RealmMovie;
 import com.sayed.rxjava.room_db.EntityMovies;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmResults;
+
 public class FavouritesInteractor {
 
     //get fav movies from offline db
     public void getFavMovies(FavListener favListener){
-        List<EntityMovies> entityMoviesList= AppController.getDAOMovies().getItems(); // get all movies
-        if (entityMoviesList.size()!=0){
+        RealmResults<RealmMovie> realmList=AppController.getRealm().where(RealmMovie.class).findAll();
+        if (realmList.size()!=0){
             List<Movie> movieList=new ArrayList<>();
-            for (EntityMovies entityMovies:entityMoviesList){
+            for (RealmMovie entityMovies:realmList){
                 Movie movie=new Movie();
                 movie.setFavourite(true);
                 movie.setId((int) entityMovies.getMovie_id());
@@ -32,7 +33,12 @@ public class FavouritesInteractor {
 
     //delete movie from offline db
     public void deleteMovieFromOfflineDB(int movie_id){
-        AppController.getDAOMovies().deleteMovieById(movie_id);
+        RealmMovie realmObj= AppController.getRealm().where(RealmMovie.class).equalTo("movie_id",movie_id).findFirst();
+        if (realmObj!=null){
+            AppController.getRealm().beginTransaction();
+            realmObj.deleteFromRealm();
+            AppController.getRealm().commitTransaction();
+        }
     }
 
     /*

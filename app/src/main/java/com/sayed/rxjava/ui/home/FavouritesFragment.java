@@ -57,7 +57,7 @@ public class FavouritesFragment extends Fragment implements FavouriteView{
         }
     };
 
-    
+
     /**
      * ON CREATE VIEW
      */
