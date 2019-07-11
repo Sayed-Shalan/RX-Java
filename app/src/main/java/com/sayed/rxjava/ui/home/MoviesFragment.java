@@ -1,6 +1,9 @@
 package com.sayed.rxjava.ui.home;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +26,7 @@ import com.sayed.rxjava.R;
 import com.sayed.rxjava.databinding.FragmentMoviesBinding;
 import com.sayed.rxjava.manager.BroadcastManager;
 import com.sayed.rxjava.model.Movie;
+import com.sayed.rxjava.paging.PagingViewModel;
 import com.sayed.rxjava.presenter.MoviesPresenter;
 import com.sayed.rxjava.repositories.MoviesInteractor;
 
@@ -39,12 +43,14 @@ public class MoviesFragment extends Fragment implements MoviesView{
     int page=0;
     int total_pages=1;
     MoviesPresenter moviesPresenter;
+    PagingViewModel pagingViewModel;
+    PagedMoviesAdapter pagedMoviesAdapter;
 
 
     //Swipe refresh Listener
     SwipeRefreshLayout.OnRefreshListener onRefreshListener= () -> {
         adapterMovies.clearItems();
-        moviesPresenter.getMovies(1);
+       // moviesPresenter.getMovies(1);
     };
 
     //on fav click
@@ -133,18 +139,33 @@ public class MoviesFragment extends Fragment implements MoviesView{
         setupAdapter();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).registerReceiver(mMessageReceiver,
                 new IntentFilter(BroadcastManager.ACTION_MOVIE_REMOVED));
-        moviesPresenter=new MoviesPresenter(this,new MoviesInteractor());
-        moviesPresenter.getMovies(1);
+//        moviesPresenter=new MoviesPresenter(this,new MoviesInteractor());
+//        moviesPresenter.getMovies(1);
     }
 
     //setup adapter
     private void setupAdapter() {
         items.clear();
         adapterMovies=new AdapterMovies(moviesCallback,items);
+        pagedMoviesAdapter=new PagedMoviesAdapter(moviesCallback);
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        binding.recyclerView.setAdapter(adapterMovies);
-        adapterMovies.notifyDataSetChanged();
-        binding.recyclerView.addOnScrollListener(onScrollListener);
+        binding.recyclerView.setHasFixedSize(true);
+
+        //getting our ItemViewModel
+        pagingViewModel = ViewModelProviders.of(this).get(PagingViewModel.class);
+
+        //creating the Adapter
+
+        //observing the itemPagedList from view model
+        pagingViewModel.itemPagedList.observe(this, items -> {
+
+            //in case of any changes
+            //submitting the items to adapter
+            pagedMoviesAdapter.submitList(items);
+        });
+
+        //setting the adapter
+        binding.recyclerView.setAdapter(pagedMoviesAdapter);
     }
 
     //This method would check that the recycler view scroll has reached the bottom or not
